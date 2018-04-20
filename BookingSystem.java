@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class BookingSystem {
 	
 	static User currentUser = null;
-	static String separator = "------------------------------------------------";
+	static String separator = "---------------------------------------------------------";
 	static File userInformation;
 	static ArrayList<Movie> movies;
 	static User admin = new Admin();
@@ -21,7 +21,7 @@ public class BookingSystem {
 	public static void main(String[] args){
 		//to compile will have to change the file path here
 		//eventually we will be hosting files on an external server
-		userInformation = new File("C:\\Scratch\\jMoSS\\src\\jMoSS\\usersAndPasswords.txt");
+		userInformation = new File("C:\\Users\\Luke\\Desktop\\SEPM\\SEPM-master\\usersAndPasswords.txt");
 		//below will eventually have to load the movies in from a file
 		movies = new ArrayList<Movie>();
 		movies.add(dora);
@@ -41,6 +41,8 @@ public class BookingSystem {
 		}
 	}
 
+	//format of usersAndPasswords document is user,password,role
+	//roles are generic as specs do not state each user must have their own instantiation of User as far as i am aware
 	public static void login()
 	{
 		Scanner s = new Scanner(System.in);
@@ -59,7 +61,9 @@ public class BookingSystem {
 			f.useDelimiter(",");
 			String user = f.next();
 			String pass = f.next();
-			String role = f.next();
+			String role = f.nextLine();
+			role = role.replaceFirst("\\,", "");
+			System.out.println(String.format("User: %s Username: %s Pass: %s  Password: %s Role: %s", user, userID, pass, password, role));
 			if(userID.equals(user) && password.equals(pass))
 			{
 				System.out.println("userID and Password verified please continue");
@@ -87,27 +91,28 @@ public class BookingSystem {
 		Boolean logout = false;
 		while(logout == false)
 		{
-		switch (input)
-		{
-		case 1: admin.makeBooking(movies);
-				break;
-		case 2: System.out.println("not yet implemented....");
-				break;
-		case 3:	System.out.println("not yet implemented....");
-				break;
-		case 4:	System.out.println("not yet implemented....");
-				break;
-		case 5:	System.out.println("not yet implemented....");
-				break;
-		case 6:	admin.searchMovie(movies);
-				break;
-		case 7:	System.out.println("not yet implemented....");
-				break;
-		case 8:	System.out.println("not yet implemented....");
-				break;
-		case 9: logout = true;
-		default: 
-				break;
+			switch (input)
+			{
+				case 1: admin.makeBooking(movies);
+					break;
+				case 2: System.out.println("not yet implemented....");
+					break;
+				case 3:	System.out.println("not yet implemented....");
+					break;
+				case 4:	System.out.println("not yet implemented....");
+					break;
+				case 5:	System.out.println("not yet implemented....");
+					break;
+				case 6:	admin.searchMovie(movies);
+					break;
+				case 7:	System.out.println("not yet implemented....");
+					break;
+				case 8:	System.out.println("not yet implemented....");
+					break;
+				case 9: logout = true;
+					break;
+				default: 
+					break;
 		}
 		if(logout == false)
 		{

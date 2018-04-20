@@ -11,7 +11,10 @@ public class Admin extends User {
 		Scanner s = new Scanner(System.in);
 		while(validOption == false)
 		{
-			System.out.println("As an admin you can execute the following commands:");
+			System.out.println();
+			System.out.println("~~~~~~~~~~~~~~");
+			System.out.println("    ADMIN");
+			System.out.println("~~~~~~~~~~~~~~");
 			System.out.println("1. Make Booking");
 			System.out.println("2. Delete Booking");
 			System.out.println("3. Add Movie");
@@ -20,7 +23,7 @@ public class Admin extends User {
 			System.out.println("6. Search by Movie");
 			System.out.println("7. Search by theatre");
 			System.out.println("8. Search by customer email");
-			System.out.println("9. logout");
+			System.out.println("9. Logout");
 			System.out.println("--------------------------------------------------");
 			System.out.println("Please enter the associated number of desired action:");
 			input = s.nextInt();
