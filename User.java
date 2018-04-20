@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public abstract class User {
+	
 	public void makeBooking(ArrayList<Movie> movies)
 	{	
+		//this is coded as best case
+		//need to also expand to catch certain errors here
 		Scanner sc = new Scanner(System.in);
 		Movie bookingMovie = null;
 		while(bookingMovie == null)
@@ -53,9 +56,21 @@ public abstract class User {
 		
 			
 	}
-	public void searchMovie(String movie, Array[][] movies)
+	public void searchMovie(ArrayList<Movie> movies)
 	{
-		//implement here
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Please input the name of the movie:");
+		String name = sc.nextLine();
+		for(Movie i : movies)
+		{
+			if(name.equals(i.getMovieName()))
+			{
+				System.out.println("Movie has been found following sessions are available:");
+				displaySessions(i);
+				break;
+			}
+		}
+		System.out.println("Movie has not been found");
 	}
 	public void searchTheatre(String theatre, Array[][] theatres)
 	{
@@ -68,6 +83,13 @@ public abstract class User {
 	public void displayMovies() 
 	{
 		
+	}
+	public void displaySessions(Movie movie)
+	{
+		for(MovieSession session: movie.getSessions())
+		{
+			System.out.println(session);
+		}
 	}
 	public abstract Integer displayOptions();
 }

@@ -17,10 +17,14 @@ public class Admin extends User {
 			System.out.println("3. Add Movie");
 			System.out.println("4. Delete Movie");
 			System.out.println("5. Display movie sessions and times");
+			System.out.println("6. Search by Movie");
+			System.out.println("7. Search by theatre");
+			System.out.println("8. Search by customer email");
+			System.out.println("9. logout");
 			System.out.println("--------------------------------------------------");
 			System.out.println("Please enter the associated number of desired action:");
 			input = s.nextInt();
-			if(input == 1 || input == 2 || input == 3 || input == 4 || input == 5)
+			if(input > 0 && input < 10)
 				validOption = true;
 			else
 				System.out.println("invalid option");

@@ -15,7 +15,8 @@ public class BookingSystem {
 	static User bookingClerk = new BookingClerk();
 	static Movie dora = new Movie("Dora The Explorer");
 	static MovieSession doraSession = new MovieSession(dora, "20/4", "10:30AM");
-	
+	static Movie mov1  = new Movie("Dora Strikes Back");
+	static MovieSession mov1Session1 = new MovieSession(mov1, "21/4", "12:30AM");
 	
 	public static void main(String[] args){
 		//to compile will have to change the file path here
@@ -25,6 +26,8 @@ public class BookingSystem {
 		movies = new ArrayList<Movie>();
 		movies.add(dora);
 		movies.get(0).sessions.add(doraSession);
+		movies.add(mov1);
+		movies.get(1).sessions.add(mov1Session1);
 		System.out.println("Welcome to jMoSS movie search and booking system");
 		System.out.println(separator);
 		while(currentUser == null)
@@ -80,8 +83,40 @@ public class BookingSystem {
 	}
 	public static void adminHandler(User admin)
 	{
-		admin.displayOptions();
-		admin.makeBooking(movies);
+		int input = admin.displayOptions();
+		Boolean logout = false;
+		while(logout == false)
+		{
+		switch (input)
+		{
+		case 1: admin.makeBooking(movies);
+				break;
+		case 2: System.out.println("not yet implemented....");
+				break;
+		case 3:	System.out.println("not yet implemented....");
+				break;
+		case 4:	System.out.println("not yet implemented....");
+				break;
+		case 5:	System.out.println("not yet implemented....");
+				break;
+		case 6:	admin.searchMovie(movies);
+				break;
+		case 7:	System.out.println("not yet implemented....");
+				break;
+		case 8:	System.out.println("not yet implemented....");
+				break;
+		case 9: logout = true;
+		default: 
+				break;
+		}
+		if(logout == false)
+		{
+			input = admin.displayOptions();
+		}
+		
+		}
+		
+		System.exit(1);
 	}
 }
 
