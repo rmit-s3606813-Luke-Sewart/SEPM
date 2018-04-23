@@ -67,7 +67,7 @@ public abstract class User {
 			{
 				System.out.println("Movie has been found following sessions are available:");
 				displaySessions(i);
-				break;
+				return;
 			}
 		}
 		System.out.println("Movie has not been found");
@@ -80,9 +80,19 @@ public abstract class User {
 	{
 		//implement here
 	}
-	public void displayMovies() 
+	public void displayMovies(ArrayList<Movie> movies) 
 	{
-		
+		System.out.println("\n~~~~~~~~ MOVIES AND SESSIONS ~~~~~~~~");
+		for(Movie movie: movies)
+		{
+			System.out.println("----------------------------------------");
+			System.out.println(movie.getMovieName());
+			System.out.println("----------------------------------------");
+			for(MovieSession session : movie.getSessions())
+			{
+				System.out.println(session);
+			}
+		}
 	}
 	public void displaySessions(Movie movie)
 	{

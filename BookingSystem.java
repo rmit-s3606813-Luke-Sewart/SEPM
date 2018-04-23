@@ -15,26 +15,31 @@ public class BookingSystem {
 	static User bookingClerk = new BookingClerk();
 	static Movie dora = new Movie("Dora The Explorer");
 	static MovieSession doraSession = new MovieSession(dora, "20/4", "10:30AM");
+	static MovieSession doraSession2 = new MovieSession(dora, "20/4", "12:30AM");
+	static MovieSession doraSession3 = new MovieSession(dora, "20/4", "2:30PM");
 	static Movie mov1  = new Movie("Dora Strikes Back");
 	static MovieSession mov1Session1 = new MovieSession(mov1, "21/4", "12:30AM");
+	static MovieSession mov1Session2 = new MovieSession(mov1, "21/4", "2:30PM");
+	static MovieSession mov1Session3 = new MovieSession(mov1, "21/4", "4:30PM");
 	
 	public static void main(String[] args){
 		//to compile will have to change the file path here
 		//eventually we will be hosting files on an external server
-		userInformation = new File("C:\\Users\\Luke\\Desktop\\SEPM\\SEPM-master\\usersAndPasswords.txt");
+		userInformation = new File("C:\\Users\\lukes\\Desktop\\Uni\\Software Engineering Project Management\\Assignment2\\SEPM-master\\src\\usersAndPasswords.txt");
 		//below will eventually have to load the movies in from a file
 		movies = new ArrayList<Movie>();
-		movies.add(dora);
-		movies.get(0).sessions.add(doraSession);
-		movies.add(mov1);
-		movies.get(1).sessions.add(mov1Session1);
+		addMoviesTemporary();
+		Theatre stKilda = new Theatre("St.Kilda", movies);
+		Theatre fitzroy = new Theatre ("Fitzroy", movies);
+		Theatre melbCBD = new Theatre ("Melbourne CBD", movies);
+		Theatre sunshine = new Theatre ("Sunshine", movies);
+		Theatre lilydale = new Theatre ("Lilydale", movies);
 		System.out.println("Welcome to jMoSS movie search and booking system");
 		System.out.println(separator);
 		while(currentUser == null)
 		{
 			login();
 		}
-		System.out.println(separator);
 		if(currentUser.getClass() == Admin.class)
 		{
 			adminHandler(currentUser);
@@ -63,9 +68,10 @@ public class BookingSystem {
 			String pass = f.next();
 			String role = f.nextLine();
 			role = role.replaceFirst("\\,", "");
-			System.out.println(String.format("User: %s Username: %s Pass: %s  Password: %s Role: %s", user, userID, pass, password, role));
+			// System.out.println(String.format("User: %s Username: %s Pass: %s  Password: %s Role: %s", user, userID, pass, password, role));
 			if(userID.equals(user) && password.equals(pass))
 			{
+				System.out.println(separator);
 				System.out.println("userID and Password verified please continue");
 				if(role.equals("admin"))
 				{
@@ -101,7 +107,7 @@ public class BookingSystem {
 					break;
 				case 4:	System.out.println("not yet implemented....");
 					break;
-				case 5:	System.out.println("not yet implemented....");
+				case 5:	admin.displayMovies(movies);;
 					break;
 				case 6:	admin.searchMovie(movies);
 					break;
@@ -110,6 +116,7 @@ public class BookingSystem {
 				case 8:	System.out.println("not yet implemented....");
 					break;
 				case 9: logout = true;
+						logout();
 					break;
 				default: 
 					break;
@@ -122,6 +129,20 @@ public class BookingSystem {
 		}
 		
 		System.exit(1);
+	}
+	public static void addMoviesTemporary()
+	{
+		movies.add(dora);
+		movies.get(0).sessions.add(doraSession);
+		movies.get(0).sessions.add(doraSession2);
+		movies.get(0).sessions.add(doraSession3);
+		movies.add(mov1);
+		movies.get(1).sessions.add(mov1Session1);
+		movies.get(1).sessions.add(mov1Session2);
+		movies.get(1).sessions.add(mov1Session3);
+	}
+	public static void logout() {
+		login();
 	}
 }
 
