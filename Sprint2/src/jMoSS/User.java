@@ -29,37 +29,61 @@ public abstract class User {
 			if(Integer.valueOf(input) <=  theatre.getMovies().size() && Integer.valueOf(input) >= 1)
 			{
 				bookingMovie = theatre.getMovies().get(Integer.valueOf(input) - 1);
+			} else {
+				System.out.println("Invalid input, try again");
 			}
 		}
-		System.out.println("Following sessions are available for " + bookingMovie.getMovieName() + "");
-		int count = 1;
-		for(MovieSession session : bookingMovie.getSessions())
-		{
-			System.out.print(count + ". ");
-			System.out.println(session);
-			count++;
+		
+		MovieSession movieSession = null;
+		while (movieSession == null) {
+			System.out.printf("Following sessions are available for %s:\n", bookingMovie.getMovieName());
+			for (int i = 0; i < bookingMovie.getSessions().size(); i++) {
+				System.out.printf("%d. %s (%d)\n", i + 1, bookingMovie.getSessions().get(i), 
+						bookingMovie.getSessions().get(i).getBookings().size());
+			}
+			System.out.println("Please input session number:");
+			String sessionNumber = sc.nextLine();
+			if (Integer.valueOf(sessionNumber) <= bookingMovie.getSessions().size() && Integer.valueOf(sessionNumber) >= 1) {
+				movieSession = bookingMovie.getSessions().get(Integer.valueOf(sessionNumber) - 1);
+			} else {
+				System.out.println("Invalid input, try again");
+			}
 		}
-		System.out.println("Please input session number:");
-		String sessionNumber = sc.nextLine();
+		
 		System.out.println("What is customer email?");
 		String email = sc.nextLine();
 		System.out.println("What is customer suburb?");
 		String suburb = sc.nextLine();
-		Booking booking = new Booking(email, suburb);
-		if(bookingMovie.getSession(Integer.valueOf(sessionNumber) - 1).add(booking))
-		{
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println("The booking has been made successfully");
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		}
-		else 
-		{
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println("	  The movie session is full!"	   );
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		}
 		
+		boolean test = false;
+		while (test == false) {
+			System.out.printf("Confirm booking for %s on %s? (Y/N)\n", bookingMovie.getMovieName(), movieSession.toString());
+			String input = sc.nextLine();
 			
+			if ((input.equals("Y")) || (input.equals("y"))) {
+				
+				Booking booking = new Booking(email, suburb);
+				if(movieSession.add(booking))
+				{
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					System.out.println("The booking has been made successfully");
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				}
+				else 
+				{
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					System.out.println("	  The movie session is full!"	   );
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				}
+				break;
+				
+			} else if ((input.equals("N")) || (input.equals("n"))) {
+				break;
+			} else {
+				System.out.print("Invalid input, try again.\n");
+				continue;
+			}
+		}	
 	}
 	
 	

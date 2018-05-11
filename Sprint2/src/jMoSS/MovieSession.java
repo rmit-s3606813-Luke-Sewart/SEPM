@@ -1,24 +1,24 @@
 package jMoSS;
 
+import java.util.ArrayList;
+
 public class MovieSession implements java.io.Serializable {
 //	Movie movie;
 	String date;
 	String time;
-	Booking[] bookings;
-	int count = 0;
+	ArrayList<Booking> bookings;
 	
 	public MovieSession(String date, String time)
 	{
-//		this.movie = movie;
 		this.date = date;
 		this.time = time;
-		bookings = new Booking[20];
+		this.bookings = new ArrayList<Booking>();
 	}
 	
 	public Boolean add(Booking booking) {
-		if(count < 20)
+		if(bookings.size() < 20)
 		{
-			bookings[count] = booking;
+			bookings.add(booking);
 			return true;
 		}
 		else
@@ -33,7 +33,7 @@ public class MovieSession implements java.io.Serializable {
 		return time;
 	}
 
-	public Booking[] getBookings() {
+	public ArrayList<Booking> getBookings() {
 		return bookings;
 	}
 
