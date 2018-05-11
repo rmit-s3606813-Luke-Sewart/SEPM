@@ -17,7 +17,7 @@ public class BookingSystem {
 	static File userInformation;
 	
 	static String separator = "---------------------------------------------------------";
-	static String filePath = "files\\";
+	static String filePath = "files//";
 	
 	static ArrayList<Theatre> theatres;
 	static Theatre currTheatre;
@@ -61,6 +61,10 @@ public class BookingSystem {
 		{
 			adminHandler(currentUser);
 		}
+		if(currentUser.getClass() == BookingClerk.class)
+		{
+			bookingClerkHandler(currentUser);
+		}
 	}
 
 	//format of usersAndPasswords document is user,password,role
@@ -91,7 +95,7 @@ public class BookingSystem {
 			if(userID.equals(user) && password.equals(pass))
 			{
 				System.out.println(separator);
-				System.out.println("userID and Password verified please continue");
+				System.out.println("userID and Password verified please continue\n");
 				if(role.equals("admin"))
 				{
 					currentUser = admin;
@@ -109,6 +113,7 @@ public class BookingSystem {
 			System.out.println("Incorrect username and password please try again");
 			System.out.println(separator);
 		}
+		
 		Boolean theatreSelect = false;
 		while(theatreSelect == false)
 		{
@@ -141,7 +146,7 @@ public class BookingSystem {
 				case 2: System.out.println("not yet implemented....");
 					break;
 				case 3:	
-					admin.addNewMovie(theatres);
+					admin.addNewMovie(currTheatre);
 					break;
 				case 4:	System.out.println("not yet implemented....");
 					break;
@@ -166,6 +171,40 @@ public class BookingSystem {
 		
 		System.exit(1);
 	}
+	
+	// need to add menu options of add Session, and quit...
+		public static void bookingClerkHandler(User clerk)
+		{
+			int input = clerk.displayOptions();
+			Boolean logout = false;
+			while(logout == false)
+			{
+				switch (input)
+				{
+					case 1: clerk.makeBooking(currTheatre);
+						break;
+					case 2: System.out.println("not yet implemented....");
+						break;
+					case 3:	clerk.displayMovies(currTheatre.movies);
+					case 4:
+						break;
+					case 5:	clerk.searchTheatre(theatres);
+						break;
+					case 6:	System.out.println("not yet implemented....");
+						break;
+					case 7: logout();
+						break;
+					default: 
+						break;
+			}
+			if(logout == false)
+			{
+				input = clerk.displayOptions();
+			}
+			}
+			
+			System.exit(1);
+		}
 
 	public static void logout() {
 		for(Theatre theatre: theatres)
@@ -179,7 +218,7 @@ public class BookingSystem {
 	{
 		try {
 	         FileOutputStream fileOut =
-	         new FileOutputStream("files/" + theatre.id + ".ser");
+	         new FileOutputStream(filePath + theatre.id + ".ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(theatre);
 	         out.close();
@@ -193,14 +232,14 @@ public class BookingSystem {
 	public static Theatre readObject(String theatreId) {
 		Theatre t = null;
 		try {
-			FileInputStream fileIn = new FileInputStream("files\\" + theatreId + ".ser");
+			FileInputStream fileIn = new FileInputStream(filePath + theatreId + ".ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			t = (Theatre) in.readObject();
 			in.close();
 			fileIn.close();
 		}catch(Exception e)
 		{
-			System.out.println("Exception caught when reading object");
+			System.out.printf("Exception caught when reading object %s\n", theatreId);
 		}
 		//System.out.println(theatreId + "has been read successfully");
 		return t;

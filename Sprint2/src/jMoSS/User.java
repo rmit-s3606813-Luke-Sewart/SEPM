@@ -19,16 +19,16 @@ public abstract class User {
 		Movie bookingMovie = null;
 		while(bookingMovie == null)
 		{
-			System.out.println("What is the name of the movie you wish to make a booking for?");
+			System.out.println("Choose a movie:");
+			
+			for (int i = 0; i < theatre.getMovies().size(); i++) {
+				System.out.printf("%d. %s\n", i + 1, theatre.getMovies().get(i).getMovieName());
+			}
+			
 			String input = sc.nextLine();
-			for(Movie movie: theatre.getMovies())
+			if(Integer.valueOf(input) <=  theatre.getMovies().size() && Integer.valueOf(input) >= 1)
 			{
-				if(movie.getMovieName().equals(input))
-				{
-					bookingMovie = movie;
-					break;
-				}
-				
+				bookingMovie = theatre.getMovies().get(Integer.valueOf(input) - 1);
 			}
 		}
 		System.out.println("Following sessions are available for " + bookingMovie.getMovieName() + "");
@@ -63,40 +63,61 @@ public abstract class User {
 	}
 	
 	
-	public void addNewMovie(ArrayList<Theatre> theatres) {
+	public void addNewMovie(Theatre theatre) {
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("What is the name of the new movie?");
 		String input = sc.nextLine();
 		Movie movie = new Movie(input);
-		for(Theatre theatre: theatres)
-		{
-			theatre.setMovie(movie);
-		}
-		/*
-		try {
-			// gets path
-			Path path = Paths.get("/Users/markdidio/Documents/workspace/SEPM/src/jMoSS/movies.txt");
-
-			List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-
-			// creates new line to append
-			int position = lines.size();
+		theatre.setMovie(movie);
+		addSessions(movie);
+		
+	/*	while (test == false) {
+			System.out.printf("Add a session for %s (Y/N)\n", movie.getMovieName());
+			String input = sc.nextLine();
 			
-			Movie movie = new Movie(String.format("M%04d", lines.size() + 1), input);
-			String extraLine = String.format("%s;%s", movie.getId(), movie.getMovieName());
+			if ((input.equals("Y")) || (input.equals("y"))) {
+				test = true;
+			} else if ((input.equals("N")) || (input.equals("n"))) {
+				return;
+			} else {
+				System.out.print("Invalid input, try again.\n");
+			}
+		}*/
+		
+	}
+	
+	public void addSessions(Movie movie) {
+		Scanner sc = new Scanner(System.in);
+		boolean doAgain = true;
+		boolean test = false;
+		
+		System.out.printf("Add a session for %s\n", movie.getMovieName());
+		while (doAgain == true) {
+			System.out.print("Date: (dd/mm/yyyy)\n");
+			String dateString = sc.nextLine();
+			System.out.print("24-Hour Time: (HH:mm)\n");
+			String timeString = sc.nextLine();
 
-			// writes the to txt file
-			lines.add(position, extraLine);
-			Files.write(path, lines, StandardCharsets.UTF_8);
-
-			allMovies.add(movie);
-			System.out.printf("%s was successfully created.", input);
-
-		} catch (IOException ex) {
-			System.out.println("Error");
+			MovieSession movieSession = new MovieSession(dateString, timeString);
+			movie.addSession(movieSession);
+			
+			while (test == false) {
+				System.out.printf("Add another session for %s? (Y/N)\n", movie.getMovieName());
+				String input = sc.nextLine();
+				
+				if ((input.equals("Y")) || (input.equals("y"))) {
+					doAgain = true;
+					break;
+				} else if ((input.equals("N")) || (input.equals("n"))) {
+					doAgain = false;
+					break;
+				} else {
+					System.out.print("Invalid input, try again.\n");
+					continue;
+				}
+			}
 		}
-		*/
 	}
 	
 	

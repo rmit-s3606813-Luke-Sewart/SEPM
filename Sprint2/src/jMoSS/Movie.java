@@ -2,7 +2,7 @@ package jMoSS;
 
 import java.util.ArrayList;
 
-public class Movie implements java.io.Serializable{
+public class Movie implements java.io.Serializable {
 	
 	String movieName;
 	ArrayList<MovieSession> sessions;

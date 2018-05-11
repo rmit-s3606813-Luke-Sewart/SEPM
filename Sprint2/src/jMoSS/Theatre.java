@@ -2,7 +2,7 @@ package jMoSS;
 
 import java.util.ArrayList;
 
-public class Theatre implements java.io.Serializable{
+public class Theatre implements java.io.Serializable {
 	
 	String id;
 	String location;

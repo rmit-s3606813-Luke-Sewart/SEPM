@@ -1,6 +1,6 @@
 package jMoSS;
 
-public class Booking {
+public class Booking implements java.io.Serializable {
 	String customerEmail;
 	String suburb;
 

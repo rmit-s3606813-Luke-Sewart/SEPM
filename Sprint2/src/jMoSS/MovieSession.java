@@ -1,6 +1,6 @@
 package jMoSS;
 
-public class MovieSession {
+public class MovieSession implements java.io.Serializable {
 //	Movie movie;
 	String date;
 	String time;
