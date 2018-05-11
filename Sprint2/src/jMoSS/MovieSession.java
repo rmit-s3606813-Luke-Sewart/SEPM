@@ -16,13 +16,12 @@ public class MovieSession implements java.io.Serializable {
 	}
 	
 	public Boolean add(Booking booking) {
-		if(bookings.size() < 20)
-		{
+		if (bookings.size() < 20) {
 			bookings.add(booking);
 			return true;
-		}
-		else
+		} else {
 			return false;
+		}
 	}
 
 	public String getDate() {

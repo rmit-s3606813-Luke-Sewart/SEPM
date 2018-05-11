@@ -26,6 +26,12 @@ public class Admin extends User {
 			System.out.println("9. Logout");
 			System.out.println("--------------------------------------------------");
 			System.out.println("Please enter the associated number of desired action:");
+			
+			while (!s.hasNextInt()) {
+				String wrongInput = s.next();
+				System.out.printf("\"%s\" is not a valid number.\n", wrongInput);
+			}
+			
 			input = s.nextInt();
 			if(input > 0 && input < 10)
 				validOption = true;

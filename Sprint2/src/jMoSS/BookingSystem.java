@@ -113,20 +113,22 @@ public class BookingSystem {
 			System.out.println("Incorrect username and password please try again");
 			System.out.println(separator);
 		}
-		
+
 		Boolean theatreSelect = false;
-		while(theatreSelect == false)
-		{
+		while (theatreSelect == false) {
 			System.out.println("Please enter your theatres associated number:");
-			System.out.println("1. St. Kilda");
-			System.out.println("2. Fitzroy");
-			System.out.println("3. Sunshine");
-			System.out.println("4. Lilydale");
-			System.out.println("5. Melbourne CBD");
-			String theatre = s.nextLine();
-			if(Integer.valueOf(theatre) <= 5 && Integer.valueOf(theatre) >= 1)
-			{
-				currTheatre = theatres.get(Integer.valueOf(theatre) - 1);
+			for (int i = 0; i < theatres.size(); i++) {
+				System.out.printf("%d. %s\n", i + 1, theatres.get(i).getLocation());
+			}
+
+			while (!s.hasNextInt()) {
+				String wrongInput = s.next();
+				System.out.printf("\"%s\" is not a valid number.\n", wrongInput);
+			}
+
+			int selectedTheatre = s.nextInt();
+			if (selectedTheatre <= theatres.size() && selectedTheatre >= 1) {
+				currTheatre = theatres.get(selectedTheatre - 1);
 				theatreSelect = true;
 			}
 		}
@@ -137,36 +139,41 @@ public class BookingSystem {
 	{
 		int input = admin.displayOptions();
 		Boolean logout = false;
-		while(logout == false)
-		{
-			switch (input)
-			{
-				case 1: admin.makeBooking(currTheatre);
-					break;
-				case 2: System.out.println("not yet implemented....");
-					break;
-				case 3:	
-					admin.addNewMovie(currTheatre);
-					break;
-				case 4:	System.out.println("not yet implemented....");
-					break;
-				case 5:	admin.displayMovies(currTheatre.movies);
-					break;
-				case 6:	//admin.searchMovie(allMovies);
-					break;
-				case 7:	admin.searchTheatre(theatres);
-					break;
-				case 8:	System.out.println("not yet implemented....");
-					break;
-				case 9: logout();
-					break;
-				default: 
-					break;
-		}
-		if(logout == false)
-		{
-			input = admin.displayOptions();
-		}
+		while (logout == false) {
+			switch (input) {
+			case 1:
+				admin.makeBooking(currTheatre);
+				break;
+			case 2:
+				admin.removeBooking(currTheatre);
+				break;
+			case 3:
+				admin.addNewMovie(currTheatre);
+				break;
+			case 4:
+				admin.removeMovie(currTheatre);
+				break;
+			case 5:
+				admin.displayMovies(currTheatre.movies);
+				break;
+			case 6: 
+				admin.searchMovie(currTheatre.movies);
+				break;
+			case 7:
+				admin.searchTheatre(theatres);
+				break;
+			case 8:
+				System.out.println("not yet implemented....");
+				break;
+			case 9:
+				logout();
+				break;
+			default:
+				break;
+			}
+			if (logout == false) {
+				input = admin.displayOptions();
+			}
 		}
 		
 		System.exit(1);
@@ -183,10 +190,11 @@ public class BookingSystem {
 				{
 					case 1: clerk.makeBooking(currTheatre);
 						break;
-					case 2: System.out.println("not yet implemented....");
+					case 2: clerk.removeBooking(currTheatre);
 						break;
 					case 3:	clerk.displayMovies(currTheatre.movies);
-					case 4:
+						break;
+					case 4: clerk.searchMovie(currTheatre.movies);
 						break;
 					case 5:	clerk.searchTheatre(theatres);
 						break;

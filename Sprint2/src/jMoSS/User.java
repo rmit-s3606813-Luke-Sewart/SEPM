@@ -25,10 +25,15 @@ public abstract class User {
 				System.out.printf("%d. %s\n", i + 1, theatre.getMovies().get(i).getMovieName());
 			}
 			
-			String input = sc.nextLine();
-			if(Integer.valueOf(input) <=  theatre.getMovies().size() && Integer.valueOf(input) >= 1)
+			while (!sc.hasNextInt()) {
+				String wrongInput = sc.next();
+				System.out.printf("\"%s\" is not a valid number.\n", wrongInput);
+			}
+			
+			int input = sc.nextInt();
+			if(input <=  theatre.getMovies().size() && input >= 1)
 			{
-				bookingMovie = theatre.getMovies().get(Integer.valueOf(input) - 1);
+				bookingMovie = theatre.getMovies().get(input - 1);
 			} else {
 				System.out.println("Invalid input, try again");
 			}
@@ -42,14 +47,21 @@ public abstract class User {
 						bookingMovie.getSessions().get(i).getBookings().size());
 			}
 			System.out.println("Please input session number:");
-			String sessionNumber = sc.nextLine();
-			if (Integer.valueOf(sessionNumber) <= bookingMovie.getSessions().size() && Integer.valueOf(sessionNumber) >= 1) {
-				movieSession = bookingMovie.getSessions().get(Integer.valueOf(sessionNumber) - 1);
+			
+			while (!sc.hasNextInt()) {
+				String wrongInput = sc.next();
+				System.out.printf("\"%s\" is not a valid number.\n", wrongInput);
+			}
+			
+			int sessionNumber = sc.nextInt();
+			if (sessionNumber <= bookingMovie.getSessions().size() && sessionNumber >= 1) {
+				movieSession = bookingMovie.getSessions().get(sessionNumber - 1);
 			} else {
 				System.out.println("Invalid input, try again");
 			}
 		}
 		
+		sc.nextLine();
 		System.out.println("What is customer email?");
 		String email = sc.nextLine();
 		System.out.println("What is customer suburb?");
@@ -60,7 +72,7 @@ public abstract class User {
 			System.out.printf("Confirm booking for %s on %s? (Y/N)\n", bookingMovie.getMovieName(), movieSession.toString());
 			String input = sc.nextLine();
 			
-			if ((input.equals("Y")) || (input.equals("y"))) {
+			if (input.equalsIgnoreCase("Y")) {
 				
 				Booking booking = new Booking(email, suburb);
 				if(movieSession.add(booking))
@@ -77,13 +89,85 @@ public abstract class User {
 				}
 				break;
 				
-			} else if ((input.equals("N")) || (input.equals("n"))) {
+			} else if (input.equalsIgnoreCase("N")) {
 				break;
 			} else {
 				System.out.print("Invalid input, try again.\n");
 				continue;
 			}
 		}	
+	}
+	
+	public void removeBooking(Theatre theatre)
+	{	
+		//this is coded as best case
+		//need to also expand to catch certain errors here
+		Scanner sc = new Scanner(System.in);
+		Movie bookedMovie = null;
+		while(bookedMovie == null)
+		{
+			System.out.println("Choose the movie you wish to remove the booking from:");
+			
+			for (int i = 0; i < theatre.getMovies().size(); i++) {
+				System.out.printf("%d. %s\n", i + 1, theatre.getMovies().get(i).getMovieName());
+			}
+			
+			while (!sc.hasNextInt()) {
+				String wrongInput = sc.next();
+				System.out.printf("\"%s\" is not a valid number.\n", wrongInput);
+			}
+			
+			int input = sc.nextInt();
+			if(input <=  theatre.getMovies().size() && input >= 1)
+			{
+				bookedMovie = theatre.getMovies().get(input - 1);
+			} else {
+				System.out.println("Invalid input, try again");
+			}
+		}
+		
+		MovieSession movieSession = null;
+		while (movieSession == null) {
+			System.out.printf("Choose the session for %s you wish to remove the booking from:\n", 
+					bookedMovie.getMovieName());
+			for (int i = 0; i < bookedMovie.getSessions().size(); i++) {
+				System.out.printf("%d. %s (%d)\n", i + 1, bookedMovie.getSessions().get(i), 
+						bookedMovie.getSessions().get(i).getBookings().size());
+			}
+			System.out.println("Please input session number:");
+			
+			while (!sc.hasNextInt()) {
+				String wrongInput = sc.next();
+				System.out.printf("\"%s\" is not a valid number.\n", wrongInput);
+			}
+			
+			int sessionNumber = sc.nextInt();
+			if (sessionNumber <= bookedMovie.getSessions().size() && sessionNumber >= 1) {
+				movieSession = bookedMovie.getSessions().get(sessionNumber - 1);
+			} else {
+				System.out.println("Invalid input, try again");
+			}
+		}
+		
+		sc.nextLine();
+		System.out.println("What is customer email?");
+		String email = sc.nextLine();
+		
+		for (Booking booking : movieSession.getBookings()) {
+			if (booking.getEmail().equalsIgnoreCase(email)) {
+				if (movieSession.getBookings().remove(booking)) {
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					System.out.println("     The booking has been removed    ");
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					return;
+				}
+			}
+		}
+		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("         Email was not found...       ");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	
 	}
 	
 	
@@ -95,20 +179,6 @@ public abstract class User {
 		Movie movie = new Movie(input);
 		theatre.setMovie(movie);
 		addSessions(movie);
-		
-	/*	while (test == false) {
-			System.out.printf("Add a session for %s (Y/N)\n", movie.getMovieName());
-			String input = sc.nextLine();
-			
-			if ((input.equals("Y")) || (input.equals("y"))) {
-				test = true;
-			} else if ((input.equals("N")) || (input.equals("n"))) {
-				return;
-			} else {
-				System.out.print("Invalid input, try again.\n");
-			}
-		}*/
-		
 	}
 	
 	public void addSessions(Movie movie) {
@@ -130,10 +200,10 @@ public abstract class User {
 				System.out.printf("Add another session for %s? (Y/N)\n", movie.getMovieName());
 				String input = sc.nextLine();
 				
-				if ((input.equals("Y")) || (input.equals("y"))) {
+				if (input.equalsIgnoreCase("Y")) {
 					doAgain = true;
 					break;
-				} else if ((input.equals("N")) || (input.equals("n"))) {
+				} else if (input.equalsIgnoreCase("N")) {
 					doAgain = false;
 					break;
 				} else {
@@ -144,6 +214,52 @@ public abstract class User {
 		}
 	}
 	
+public void removeMovie(Theatre theatre) {
+		
+		Scanner sc = new Scanner(System.in);
+		Movie movieToRemove = null;
+		
+		while(movieToRemove == null)
+		{
+			System.out.println("What is the name of the new movie?");
+			
+			for (int i = 0; i < theatre.getMovies().size(); i++) {
+				System.out.printf("%d. %s\n", i + 1, theatre.getMovies().get(i).getMovieName());
+			}
+			
+			while (!sc.hasNextInt()) {
+				String wrongInput = sc.next();
+				System.out.printf("\"%s\" is not a valid number.\n", wrongInput);
+			}
+			
+			int input = sc.nextInt();
+			if(input <=  theatre.getMovies().size() && input >= 1)
+			{
+				movieToRemove = theatre.getMovies().get(input - 1);
+			} else {
+				System.out.println("Invalid input, try again");
+			}
+		}
+		
+		sc.nextLine();
+		boolean test = false;
+		while (test == false) {
+			System.out.printf("Are you sure you want to delete %s and all its sessions at %s? (Y/N)\n", 
+					movieToRemove.getMovieName(), theatre.getLocation());
+			String input = sc.nextLine();
+			
+			if (input.equalsIgnoreCase("Y")) {
+				theatre.getMovies().remove(movieToRemove);
+				break;
+			} else if (input.equalsIgnoreCase("N")) {
+				break;
+			} else {
+				System.out.print("Invalid input, try again.\n");
+				continue;
+			}
+		}	
+	}
+	
 	
 	public void searchMovie(ArrayList<Movie> movies)
 	{
@@ -152,9 +268,9 @@ public abstract class User {
 		String name = sc.nextLine();
 		for(Movie i : movies)
 		{
-			if(name.equals(i.getMovieName()))
+			if(name.equalsIgnoreCase(i.getMovieName()))
 			{
-				System.out.println("Movie has been found following sessions are available:");
+				System.out.println("Movie has been found with the following sessions are available:");
 				displaySessions(i);
 				return;
 			}
