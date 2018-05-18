@@ -2,7 +2,6 @@ package jMoSS;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("serial")
 public class Movie implements java.io.Serializable {
 	
 	//class is instance of a movie, contains movie sessions

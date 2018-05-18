@@ -399,7 +399,7 @@ public abstract class User {
 	public void searchEmail(ArrayList<Movie> movies)
 	{
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Pleast enter customer email you wish to search: (or 'r' to return)");
+		System.out.println("Please enter customer email you wish to search: (or 'r' to return)");
 		String email = sc.nextLine();
 		if(email.equals("r"))
 		{

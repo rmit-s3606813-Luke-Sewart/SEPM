@@ -205,7 +205,7 @@ public class BookingSystem {
 						break;
 					case 5:	currTheatre = clerk.searchTheatre(theatres, currTheatre);
 						break;
-					case 6:	System.out.println("not yet implemented....");
+					case 6:	clerk.searchEmail(currTheatre.movies);
 						break;
 					case 7: logout();
 						break;

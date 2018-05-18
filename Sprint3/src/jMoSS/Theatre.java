@@ -2,7 +2,6 @@ package jMoSS;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("serial")
 public class Theatre implements java.io.Serializable {
 	
 	String id;
