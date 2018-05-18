@@ -1,6 +1,0 @@
-M0001;Tomb Raider
-M0002;Pacific Rim: Uprising
-M0003;A Quiet Place
-M0004;Avengers: Infinity War
-M0005;A Wrinkle in Time
-M0006;New Movie
